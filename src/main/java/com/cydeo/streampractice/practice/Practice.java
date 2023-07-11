@@ -155,7 +155,7 @@ public class Practice {
     // Display all the employees whose salary is less than 5000
     public static List<Employee> getAllEmployeesWithLessSalaryThan5000() {
         return getAllEmployees().stream()
-                .filter(employee -> employee.getSalary()<5000)
+                .filter(employee -> employee.getSalary() < 5000)
                 .collect(Collectors.toList());
     }
 
@@ -166,8 +166,8 @@ public class Practice {
 //                .collect(Collectors.toList());
 
         return getAllEmployees().stream()
-                .filter(employee -> employee.getSalary()>6000)
-                .filter(employee -> employee.getSalary()<7000)
+                .filter(employee -> employee.getSalary() > 6000)
+                .filter(employee -> employee.getSalary() < 7000)
                 .collect(Collectors.toList());
     }
 
@@ -175,18 +175,63 @@ public class Practice {
     public static Long getGrantDouglasSalary() throws Exception {
         return getAllEmployees().stream()
                 .filter(employee -> !employee.getFirstName().equals("Grant") || !employee.equals("Douglas"))
-                .findFirst().orElseThrow(()->new Exception("Employee cannot found!"))
+                .findFirst().orElseThrow(() -> new Exception("Employee cannot found!"))
                 .getSalary();
+    }
 
     // Display the maximum salary an employee gets
-    public static Long getMaxSalary() throws Exception {
-        return 1L;
+    public static Long getMaxSalary() {
+        return getAllEmployees().stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .findFirst().get().getSalary();
+
+//            return getAllEmployees().stream()
+//                    .sorted(Comparator.comparing(Employee::getSalary).reversed())
+//                    .limit(1).collect(Collectors.toList()).get(0).getSalary();
+
+//            return getAllEmployees().stream()
+//                    .max(Comparator.comparing(Employee::getSalary))
+//                    .get().getSalary();
+
+//            return getAllEmployees().stream()
+//                    .map(Employee::getSalary)
+//                    .reduce((salary1, salary2)->salary1>salary2 ?salary1 : salary2)
+//                    .get();
+
+//            return getAllEmployees().stream()
+//                    .map(Employee::getSalary)
+//                    .reduce(Long::max)
+//                    .get();
+
+//            return getAllEmployees().stream()
+//                    .map(Employee::getSalary)
+//                    .collect(Collectors.maxBy(Comparator.comparing(Long::longValue))).get();
+//
+//            return getAllEmployees().stream()
+//                    .collect(Collectors.maxBy(Comparator.comparing(Employee::getSalary))).get().getSalary();
+
+//            return getAllEmployees().stream()
+//                    .map(Employee::getSalary)
+//                    .mapToLong(i->i)
+//                    .max().getAsLong();
+
     }
 
     // Display the employee(s) who gets the maximum salary
     public static List<Employee> getMaxSalaryEmployee() {
-        //TODO Implement the method
-        return new ArrayList<>();
+
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getSalary().equals(getMaxSalary()))
+                .collect(Collectors.toList());
+
+//        Note: We can create stream from optional class
+//        For this project, the one below works,
+//        but it is a chance for it to not work if there is multiple object that is matching with the condition
+
+//        return getAllEmployees().stream()
+//                .max(Comparator.comparing(Employee::getSalary))
+//                .stream().collect(Collectors.toList());
+
     }
 
     // Display the max salary employee's job
@@ -267,7 +312,8 @@ public class Practice {
     }
 
     // Display the employee whose first name is 'Alyssa' and manager's first name is 'Eleni' and department name is 'Sales'
-    public static Employee getEmployeeWhoseFirstNameIsAlyssaAndManagersFirstNameIsEleniAndDepartmentNameIsSales() throws Exception {
+    public static Employee getEmployeeWhoseFirstNameIsAlyssaAndManagersFirstNameIsEleniAndDepartmentNameIsSales() throws
+            Exception {
         //TODO Implement the method
         return new Employee();
     }
@@ -297,7 +343,8 @@ public class Practice {
     }
 
     // Display the employee whose job history start date is 01.01.2007 and job history end date is 31.12.2007 and department's name is 'Shipping'
-    public static Employee getEmployeeOfJobHistoryWhoseStartDateIsFirstDayOfJanuary2007AndEndDateIsLastDayOfDecember2007AndDepartmentNameIsShipping() throws Exception {
+    public static Employee getEmployeeOfJobHistoryWhoseStartDateIsFirstDayOfJanuary2007AndEndDateIsLastDayOfDecember2007AndDepartmentNameIsShipping
+    () throws Exception {
         //TODO Implement the method
         return new Employee();
     }
