@@ -102,9 +102,9 @@ public class Practice {
 
     // Display all the departments where manager name of the department is 'Steven'
     public static List<Department> getAllDepartmentsWhichManagerFirstNameIsSteven() {
-         return getAllDepartments().stream()
-                 .filter(department -> department.getManager().getFirstName().equalsIgnoreCase("steven"))
-                 .collect(Collectors.toList());
+        return getAllDepartments().stream()
+                .filter(department -> department.getManager().getFirstName().equalsIgnoreCase("steven"))
+                .collect(Collectors.toList());
 
     }
 
@@ -123,12 +123,12 @@ public class Practice {
 
         return getAllDepartments().stream()
                 .filter(department -> department.getDepartmentName().equals("IT"))
-                .findFirst().orElseThrow(()->new Exception("No department found")).getLocation().getCountry().getRegion();
+                .findFirst().orElseThrow(() -> new Exception("No department found")).getLocation().getCountry().getRegion();
     }
 
     // Display all the departments where the region of department is 'Europe'
     public static List<Department> getAllDepartmentsWhereRegionOfCountryIsEurope() {
-       return getAllDepartments().stream()
+        return getAllDepartments().stream()
                 .filter(department -> department.getLocation().getCountry().getRegion().getRegionName().equals("Europe"))
                 .collect(Collectors.toList());
     }
@@ -142,32 +142,41 @@ public class Practice {
 //                .allMatch(employee -> employee.getSalary()>1000);
 
         return getAllEmployees().stream()
-                .noneMatch(employee -> employee.getSalary()<1000);
+                .noneMatch(employee -> employee.getSalary() < 1000);
     }
 
     // Check if the salaries of all the employees in IT department are greater than 2000 (departmentName: IT)
     public static boolean checkIfThereIsAnySalaryGreaterThan2000InITDepartment() {
-        //TODO Implement the method
-        return false;
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getDepartment().equals("IT"))
+                .allMatch(employee -> employee.getSalary() > 2000);
     }
 
     // Display all the employees whose salary is less than 5000
     public static List<Employee> getAllEmployeesWithLessSalaryThan5000() {
-        //TODO Implement the method
-        return new ArrayList<>();
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getSalary()<5000)
+                .collect(Collectors.toList());
     }
 
     // Display all the employees whose salary is between 6000 and 7000
     public static List<Employee> getAllEmployeesSalaryBetween() {
-        //TODO Implement the method
-        return new ArrayList<>();
+//        return getAllEmployees().stream()
+//                .filter(employee -> employee.getSalary()>6000 && employee.getSalary()<7000)
+//                .collect(Collectors.toList());
+
+        return getAllEmployees().stream()
+                .filter(employee -> employee.getSalary()>6000)
+                .filter(employee -> employee.getSalary()<7000)
+                .collect(Collectors.toList());
     }
 
     // Display the salary of the employee Grant Douglas (lastName: Grant, firstName: Douglas)
     public static Long getGrantDouglasSalary() throws Exception {
-        //TODO Implement the method
-        return 1L;
-    }
+        return getAllEmployees().stream()
+                .filter(employee -> !employee.getFirstName().equals("Grant") || !employee.equals("Douglas"))
+                .findFirst().orElseThrow(()->new Exception("Employee cannot found!"))
+                .getSalary();
 
     // Display the maximum salary an employee gets
     public static Long getMaxSalary() throws Exception {
