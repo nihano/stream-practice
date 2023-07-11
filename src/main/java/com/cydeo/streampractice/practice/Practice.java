@@ -50,32 +50,27 @@ public class Practice {
 
     // Display all the departments
     public static List<Department> getAllDepartments() {
-        //TODO Implement the method
         return departmentService.readAll();
     }
 
     // Display all the jobs
     public static List<Job> getAllJobs() {
-        //TODO Implement the method
         return jobService.readAll();
     }
 
     // Display all the locations
     public static List<Location> getAllLocations() {
-        //TODO Implement the method
         return locationService.readAll();
     }
 
     // Display all the regions
     public static List<Region> getAllRegions() {
-        //TODO Implement the method
         return regionService.readAll();
     }
 
     // Display all the job histories
     public static List<JobHistory> getAllJobHistories() {
-        //TODO Implement the method
-        return new ArrayList<>();
+        return jobHistoryService.readAll();
     }
 
     // Display all the employees' first names
@@ -95,40 +90,59 @@ public class Practice {
 
     // Display all the departments' managers' first names
     public static List<String> getAllDepartmentManagerFirstNames() {
-       return departmentService.readAll().stream()
-                .map(Department::getManager)
-                .map(Employee::getFirstName)
+//        return departmentService.readAll().stream()
+//                .map(Department::getManager)
+//                .map(Employee::getFirstName)
+//                .collect(Collectors.toList());
+
+        return departmentService.readAll().stream()
+                .map(department -> department.getManager().getFirstName())
                 .collect(Collectors.toList());
     }
 
     // Display all the departments where manager name of the department is 'Steven'
     public static List<Department> getAllDepartmentsWhichManagerFirstNameIsSteven() {
-        //TODO Implement the method
-        return new ArrayList<>();
+         return getAllDepartments().stream()
+                 .filter(department -> department.getManager().getFirstName().equalsIgnoreCase("steven"))
+                 .collect(Collectors.toList());
+
     }
 
     // Display all the departments where postal code of the location of the department is '98199'
     public static List<Department> getAllDepartmentsWhereLocationPostalCodeIs98199() {
         return departmentService.readAll().stream()
-                .filter(department -> department.getLocation().getPostalCode().equals(98199))
+                .filter(department -> department.getLocation().getPostalCode().equals("98199"))
                 .collect(Collectors.toList());
     }
 
     // Display the region of the IT department
     public static Region getRegionOfITDepartment() throws Exception {
-        return new Region();
+//        return getAllDepartments().stream()
+//                .filter(department -> department.getDepartmentName().equals("IT"))
+//                .findFirst().get().getLocation().getCountry().getRegion();
+
+        return getAllDepartments().stream()
+                .filter(department -> department.getDepartmentName().equals("IT"))
+                .findFirst().orElseThrow(()->new Exception("No department found")).getLocation().getCountry().getRegion();
     }
 
     // Display all the departments where the region of department is 'Europe'
     public static List<Department> getAllDepartmentsWhereRegionOfCountryIsEurope() {
-        //TODO Implement the method
-        return new ArrayList<>();
+       return getAllDepartments().stream()
+                .filter(department -> department.getLocation().getCountry().getRegion().getRegionName().equals("Europe"))
+                .collect(Collectors.toList());
     }
 
     // Display if there is any employee with salary less than 1000. If there is none, the method should return true
     public static boolean checkIfThereIsNoSalaryLessThan1000() {
-        //TODO Implement the method
-        return false;
+//        return !getAllEmployees().stream()
+//                .anyMatch(employee -> employee.getSalary()<1000);
+
+//        return getAllEmployees().stream()
+//                .allMatch(employee -> employee.getSalary()>1000);
+
+        return getAllEmployees().stream()
+                .noneMatch(employee -> employee.getSalary()<1000);
     }
 
     // Check if the salaries of all the employees in IT department are greater than 2000 (departmentName: IT)
